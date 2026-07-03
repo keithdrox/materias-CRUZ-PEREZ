@@ -47,7 +47,6 @@ curl -I http://localhost:8080/login
 ```
 Se espera observar las cabeceras `Strict-Transport-Security`, `X-Frame-Options`, `X-Content-Type-Options` y `Content-Security-Policy`.
 
-## 9. Hash del último commit
 
 
 
