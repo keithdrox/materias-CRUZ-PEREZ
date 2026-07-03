@@ -1,0 +1,31 @@
+### Peticiones de Prueba del CRUD (Necesita Sesión Activa)
+# NOTA: Estas peticiones fallarán con 302/403 si se ejecutan directamente porque 
+# el sistema usa sesiones (cookies) y tokens CSRF de manera estricta.
+# Se proveen como referencia de las rutas.
+
+### 1. Iniciar sesión (Requiere ver en navegador por la Cookie)
+POST http://localhost:8080/login
+Content-Type: application/x-www-form-urlencoded
+
+username=admin&password=Admin*2026
+
+### 2. Listar Materias (Requiere Cookie de sesión)
+GET http://localhost:8080/materias
+
+### 3. Crear Nueva Materia (Requiere Cookie y CSRF Token)
+POST http://localhost:8080/materias
+Content-Type: application/x-www-form-urlencoded
+
+csrf_token=TOKEN_AQUI&codigo=APW501&nombre=Aplicaciones Web&creditos=4&semestre=5
+
+### 4. Editar Materia (Requiere Cookie y CSRF Token)
+POST http://localhost:8080/materias/1
+Content-Type: application/x-www-form-urlencoded
+
+csrf_token=TOKEN_AQUI&codigo=APW501&nombre=Aplicaciones Web Avanzada&creditos=5&semestre=5
+
+### 5. Eliminar Materia (Lógica) (Requiere Cookie y CSRF Token)
+POST http://localhost:8080/materias/1/eliminar
+Content-Type: application/x-www-form-urlencoded
+
+csrf_token=TOKEN_AQUI

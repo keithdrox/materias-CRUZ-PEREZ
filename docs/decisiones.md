@@ -1,0 +1,9 @@
+# Decisiones Técnicas Justificadas
+
+De acuerdo al requerimiento 6.1 de la rúbrica, se documentan las siguientes decisiones de diseño e implementación:
+
+1.  **Arquitectura por Capas Estricta**: Se separó la lógica en Controladores (manejo de HTTP), Servicios (reglas de validación y negocio) y Repositorios (consultas SQL). Esto asegura que el SQL está encapsulado únicamente en los Repositorios, facilitando el mantenimiento y evitando SQL Injection en las vistas o controladores.
+2.  **Uso de PDO con Consultas Parametrizadas**: En lugar de concatenar *strings* de SQL, se utilizó la extensión PDO de PHP usando marcadores parametrizados (`:codigo`, `:nombre`, etc.). Esto garantiza protección total contra ataques de inyección SQL, que es un requisito de seguridad crítica del examen.
+3.  **Defensa contra CSRF con Tokens por Sesión**: Se implementó una generación de tokens aleatorios (`random_bytes(32)`) que se almacenan en la sesión y se envían como campos ocultos (`<input type="hidden">`) en cada formulario `POST`. En el controlador, la función `hash_equals` previene vulnerabilidades de Cross-Site Request Forgery y ataques de *timing*.
+4.  **Prevención de XSS mediante `htmlspecialchars`**: Toda salida dinámica renderizada en las vistas HTML pasa a través de `htmlspecialchars(..., ENT_QUOTES, 'UTF-8')`. Esto sanitiza la entrada del usuario neutralizando cualquier etiqueta HTML o script inyectado, cumpliendo con el OWASP Top 10.
+5.  **Despliegue Contenerizado (Docker)**: La base de datos y la aplicación PHP están interconectadas usando `docker-compose.yml`. Para asegurar que PHP pueda conectarse a PostgreSQL, se construyó una imagen personalizada (`Dockerfile`) instalando los drivers `pdo_pgsql`, garantizando que el entorno es replicable con un solo comando en cualquier máquina.
